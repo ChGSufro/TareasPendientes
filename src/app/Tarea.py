@@ -1,10 +1,14 @@
 class Tarea():
 # Clase que representa una tarea
+# params: id -> int -> id de la tarea
+# params: nombre -> str -> nombre de la tarea
+# params: descripcion -> str -> descripcion de la tarea
+# params: estado -> str -> estado de la tarea (Pendiente, En Proceso, Finalizada)
 # Atributos:
-# id -> int -> id de la tarea
-# nombre -> str -> nombre de la tarea
-# descripcion -> str -> descripcion de la tarea
-# estado -> str -> estado de la tarea (Pendiente, En Proceso, Finalizada)
+    # id -> int -> id de la tarea
+    # nombre -> str -> nombre de la tarea
+    # descripcion -> str -> descripcion de la tarea
+    # estado -> str -> estado de la tarea (Pendiente, En Proceso, Finalizada)
 
     def __init__(self, id : int, nombre : str, descripcion : str, estado : str):
         self.id = id

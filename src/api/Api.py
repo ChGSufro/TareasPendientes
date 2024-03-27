@@ -1,6 +1,6 @@
 import requests
 
-url = "http://34.237.22.137:8081"
+url = "http://50.16.153.222:8081"
 
 # la llave para acceder al return de la api es: "respuesta"
 
@@ -12,7 +12,7 @@ def get_tareas_event(rut):
     except requests.exceptions.RequestException:
         return {"respuesta": "Error al comunicar con el servidor."}
 
-# metodo de respuesta POST que recibe un json con una tarea y lo envia a lo agrega a la api, 
+# metodo de respuesta POST que recibe un json con una tarea y lo envia para agregalo a la api, 
 def post_tareas_event(tarea):
     try:
         response = requests.post(f"{url}/tareas", json=tarea)

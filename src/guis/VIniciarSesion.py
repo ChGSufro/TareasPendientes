@@ -22,7 +22,7 @@ class VIniciarSesion(tk.Tk):
             ''')
             self.label.pack(padx=20, pady=20)
     
-            self.label_usuario = tk.Label(self, text="Usuario:")
+            self.label_usuario = tk.Label(self, text="Usuario (Rut):")
             self.label_usuario.pack(pady=5)
             self.entry_usuario = tk.Entry(self)
             self.entry_usuario.pack(pady=5)
@@ -52,6 +52,7 @@ class VIniciarSesion(tk.Tk):
                     usuario = UsuarioActivo(respuesta["Rut"], respuesta["Nombre"])
                     self.destroy()
                     VPrincipal(usuario)
+                    return
                 except TypeError:
                     self.resultado.config(text=respuesta)#por alguna razon no se actualiza el label
                     return      

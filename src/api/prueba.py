@@ -2,7 +2,7 @@
 
 import requests
 
-url = "http://34.237.22.137:8081/events" # Coloca la dirección URL de tu API Flask aquí
+url = "http://50.16.153.222:8081/events" # Coloca la dirección URL de tu API Flask aquí
 
 params = {
     "username": "jorge",

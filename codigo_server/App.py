@@ -118,7 +118,7 @@ def put_tareas():
 # metodo delete encargado de eliminar una tarea
 @app.route("/tareas/<id>", methods=(['DELETE']))
 def delete_tareas(id):
-    return jsonify({"respuesta": eliminar_tarea(id)})
+    return jsonify({"respuesta": eliminar_tarea(int(id))})
 
 #  metodo post que recibe un id de usuario y una contraseña y devuelve un json con el usuario si existe
 @app.route("/usuarios/log/", methods=(['POST']))

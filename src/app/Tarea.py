@@ -25,12 +25,3 @@ class Tarea():
     
     def setEstado(self, estado):
         self.estado = estado
-
-    def to_dict(self, usuario):
-        return {
-            "Id": self.id,
-            "Usuario": usuario,
-            "Nombre": self.nombre,
-            "Descripcion": self.descripcion,
-            "Estado": self.estado
-        }

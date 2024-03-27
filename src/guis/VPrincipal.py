@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from src.guis.VBienvenida import VBienvenida
+from src.guis.Gestor_de_campos import check_campos_seleccion_tarea as check
 from src.app.UsuarioActivo import UsuarioActivo
 from src.api.Api import delete_tareas_event as eliminar
 from src.api.Api import put_tareas_event as editar
@@ -12,16 +13,16 @@ class VPrincipal(tk.Tk):
             self.usuario = usuario
     
             super().__init__()
-            self.title("Bienvenido")
+            self.title("Gestor de tarea")
 
-            self.button_cerrar_sesion = tk.Button(self, text="Cerrar Sesion", command=self.cerrar_sesion)
-            self.button_cerrar_sesion.pack(pady=10)
+            self.menu = tk.Menu(self)
+            self.menu.add_command(label="Cerrar Sesion", command=self.cerrar_sesion)
+            self.menu.add_command(label="Agregar Tarea", command=self.destroy)
 
-            self.label_bienvenida = tk.Label(self, text=f"Bienvenido {self.usuario.getNombre()}")
+            self.config(menu=self.menu)
+
+            self.label_bienvenida = tk.Label(self, text=f"Bienvenido {self.usuario.getRut()} {self.usuario.getNombre()}")
             self.label_bienvenida.pack(pady=10)
-
-            self.button_agregar_tarea = tk.Button(self, text="Agregar Tarea", command=self.destroy)
-            self.button_agregar_tarea.pack(pady=10)
     
             self.tabla = ttk.Treeview(self, columns=("Nombre", "Descripcion", "Estado"))
             self.tabla.heading("#0", text="Id")
@@ -37,9 +38,11 @@ class VPrincipal(tk.Tk):
             for tarea in usuario.getTareas():
                 self.tabla.insert("", "end", text=tarea.getId(), values=(tarea.getNombre(), tarea.getDescripcion(), tarea.getEstado()))
 
+            self.respuesta = tk.Label(self, text="")
+            self.respuesta.pack(pady=10)
+
             self.espacio = tk.Label(self, text="")
             self.espacio.pack(side=tk.LEFT, padx=75)
-
 
             self.label_opcion = tk.Label(self, text="Ingrese el id:")
             self.label_opcion.pack(side=tk.LEFT, padx=10, pady=10)
@@ -54,13 +57,30 @@ class VPrincipal(tk.Tk):
             self.button_eliminar_tarea.pack(side=tk.LEFT)
             
             self.mainloop()
+
+        def cargar_tabla(self):
+            for dato in self.tabla.get_children():
+                self.tabla.delete(dato)
+            for tarea in self.usuario.getTareas():
+                self.tabla.insert("", "end", text=tarea.getId(), values=(tarea.getNombre(), tarea.getDescripcion(), tarea.getEstado()))
     
         def cerrar_sesion(self):
             self.destroy()
             VBienvenida()
 
-        def eliminar_tarea(self):
+        def agregar_tarea(self):
             pass
 
-        def eliminar_tarea(self, id):
+        def editar_tarea(self):
             pass
+
+        def eliminar_tarea(self):
+            id = self.opcion.get()
+            check_con = check(id)
+            if check_con[0] and self.usuario.mi_tarea_existe(int(id)):
+                respuesta = eliminar(int(id))["respuesta"]
+                self.usuario.updateTareas() 
+                self.cargar_tabla()
+                self.respuesta.config(text=respuesta)
+                return
+            self.respuesta.config(text=check_con[1])

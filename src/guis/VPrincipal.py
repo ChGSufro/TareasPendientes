@@ -23,7 +23,7 @@ class VPrincipal(tk.Tk):
 
             self.config(menu=self.menu)
 
-            self.label_bienvenida = tk.Label(self, text=f"Bienvenido {self.usuario.getRut()} {self.usuario.getNombre()}")
+            self.label_bienvenida = tk.Label(self, text=f"Bienvenido: {self.usuario.getNombre()}")
             self.label_bienvenida.pack(pady=10)
     
             self.tabla = ttk.Treeview(self, columns=("Nombre", "Descripcion", "Estado"))
@@ -40,23 +40,41 @@ class VPrincipal(tk.Tk):
             for tarea in usuario.getTareas():
                 self.tabla.insert("", "end", text=tarea.getId(), values=(tarea.getNombre(), tarea.getDescripcion(), tarea.getEstado()))
 
-            self.respuesta = tk.Label(self, text="")
+            self.respuesta = tk.Label(self, text="aaa")
             self.respuesta.pack(pady=10)
 
-            self.espacio = tk.Label(self, text="")
-            self.espacio.pack(side=tk.LEFT, padx=75)
-
-            self.label_opcion = tk.Label(self, text="Ingrese el id:")
+            self.label_opcion = tk.Label(self, text="Id:")
             self.label_opcion.pack(side=tk.LEFT, padx=10, pady=10)
 
             self.opcion = tk.Entry(self)
             self.opcion.pack(side=tk.LEFT, padx=10, pady=10)
 
+            self.label_Nombre = tk.Label(self, text="Nombre:")
+            self.label_Nombre.pack(side=tk.LEFT, padx=10, pady=10)
+
+            self.Nombre = tk.Entry(self)
+            self.Nombre.pack(side=tk.LEFT, padx=10, pady=10)
+
+            self.label_Descripcion = tk.Label(self, text="Descripcion:")
+            self.label_Descripcion.pack(side=tk.LEFT, padx=10, pady=10)
+
+            self.Descripcion = tk.Entry(self)
+            self.Descripcion.pack(side=tk.LEFT, padx=10, pady=10)
+
+            self.label_Estado = tk.Label(self, text="Estado:")
+            self.label_Estado.pack(side=tk.LEFT, padx=10, pady=10)
+
+            self.Estado = tk.Entry(self)
+            self.Estado.pack(side=tk.LEFT, padx=10, pady=10)    
+
+            self.button_editar_tarea = tk.Button(self, text="Agregar Tarea", command=self.editar_tarea)
+            self.button_editar_tarea.pack(padx=30, pady=5)
+
             self.button_editar_tarea = tk.Button(self, text="Editar Tarea", command=self.destroy)
-            self.button_editar_tarea.pack(side=tk.LEFT)
+            self.button_editar_tarea.pack(padx=30, pady=5)
 
             self.button_eliminar_tarea = tk.Button(self, text="Eliminar Tarea", command=self.eliminar_tarea)
-            self.button_eliminar_tarea.pack(side=tk.LEFT)
+            self.button_eliminar_tarea.pack(padx=30, pady=5)
             
             self.mainloop()
 
@@ -78,6 +96,11 @@ class VPrincipal(tk.Tk):
 
     # Metodo que nos lleva a la ventana de editar tarea
         def editar_tarea(self):
+            id = self.opcion.get()
+            check_con = check(id)
+            if not check_con[0] and not self.usuario.mi_tarea_existe(int(id)):
+                self.respuesta.config(text=check_con[1])
+                return
             pass
 
     # Metodo que elimina una tarea o muestra un mensaje de error si no se puede eliminar

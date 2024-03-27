@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request #importa la libreria Flask, jsonify y request
 
 #{Rut: {Nombre, Contraseña}}
-USUARIOS = {
+CH_USUARIOS = {
     "21290107-5" : {
     "Nombre": "Christian", 
     "Contraseña": "12345"
@@ -9,7 +9,7 @@ USUARIOS = {
 }
 
 #[{Id, Usuario, Nombre, Descripcion, Estado}]
-TAREAS = [
+CH_TAREAS = [
     {
     "Id": 1001,
     "Usuario": "21290107-5", 
@@ -22,33 +22,33 @@ TAREAS = [
 #metodo que recorre la lista de tareas y devuelve el id de la ultima tarea + 1
 #return: int
 def generar_id():
-    if len(TAREAS) == 0:
+    if len(CH_TAREAS) == 0:
         return 1
-    return TAREAS[-1]["Id"] + 1
+    return CH_TAREAS[-1]["Id"] + 1
 
 #metodo que recibe un propietario y devuelve una lista con las tareas asociadas a ese propietario.
 #param: propietario -> str -> rut del propietario de las tareas
 #return: list -> dict {Id, Usuario, Nombre, Descripcion, Estado}
 def extraer_tareas(propietario):
-    tareas = []
-    for tarea in TAREAS:
+    CH_tareas = []
+    for tarea in CH_TAREAS:
         if tarea["Usuario"] == propietario:
-            tareas.append(tarea)
-    return tareas
+            CH_tareas.append(tarea)
+    return CH_tareas
 
 #metodo que recibe una tarea en formato diccionario y la agrega a la lista de tareas con un nuevo id unico.
 #param: tarea -> dict -> {Usuario, Nombre, Descripcion, Estado}
-def agregar_tarea(tarea : dict):
-    tarea["Id"] = generar_id()
-    TAREAS.append(tarea)
+def agregar_tarea(CH_tarea : dict):
+    CH_tarea["Id"] = generar_id()
+    CH_TAREAS.append(CH_tarea)
 
 #metodo que recibe una tarea en formato diccionario y la modifica en la lista de tareas
 #param: new_tarea -> dict -> {Id, Usuario, Nombre, Descripcion, Estado}
 #return: str -> "Tarea modificada." o "Tarea no encontrada."
 def modificar_tarea(new_tarea : dict):
-    for tarea in TAREAS:
-        if tarea["Id"] == new_tarea["Id"]:
-            tarea = new_tarea
+    for CH_tarea in CH_TAREAS:
+        if CH_tarea["Id"] == new_tarea["Id"]:
+            CH_tarea = new_tarea
             return "Tarea modificada."
     return "Tarea no encontrada."
     
@@ -56,17 +56,17 @@ def modificar_tarea(new_tarea : dict):
 #param: id -> int -> id de la tarea a eliminar
 #return: str -> "Tarea eliminada." o "Tarea no encontrada."
 def eliminar_tarea(id):
-    for tarea in TAREAS:
-        if tarea["Id"] == id:
-            TAREAS.remove(tarea)
+    for CH_tarea in CH_TAREAS:
+        if CH_tarea["Id"] == id:
+            CH_TAREAS.remove(CH_tarea)
             return "Tarea eliminada."
     return "Tarea no encontrada."
 
 #metodo que recibe un id y verifica si existe en la lista de usuarios devolviendo un booleano.
 #param: id -> str -> rut del usuario
 #return: bool
-def usuario_existe(id):
-    if id in USUARIOS:
+def usuario_existe(CH_id):
+    if CH_id in CH_USUARIOS:
         return True
     return False
 
@@ -75,17 +75,17 @@ def usuario_existe(id):
 #param: contraseña -> str -> contraseña del usuario
 #return: dict -> {Rut, Nombre} o str -> "Usuario y/o contraseña incorrectos"
 def extraer_usuario(rut, contraseña):
-    if USUARIOS[rut]["Contraseña"] != contraseña:
+    if CH_USUARIOS[rut]["Contraseña"] != contraseña:
         return "Usuario y/o contraseña incorrectos"
-    return {"Rut": rut, "Nombre": USUARIOS[rut]["Nombre"]}
+    return {"Rut": rut, "Nombre": CH_USUARIOS[rut]["Nombre"]}
 
 #metodo que recibe un usuario en formato diccionario y lo agrega a la lista de usuarios
 #param: usuario -> dict -> {Rut, Nombre, Contraseña}
-def agregar_usuario(usuario : dict):
-    usr = usuario
-    rut = usuario["Rut"]
-    del usuario["Rut"]
-    USUARIOS[rut] = usr
+def agregar_usuario(CH_usuario : dict):
+    CH_usr = CH_usuario
+    CH_rut = CH_usuario["Rut"]
+    del CH_usuario["Rut"]
+    CH_USUARIOS[CH_rut] = CH_usr
 
 
 def create_app():
@@ -117,16 +117,16 @@ def create_event():
 #return: json -> {respuesta: {Id, Usuario, Nombre, Descripcion, Estado} }
 @app.route("/tareas/<id>", methods=(['GET']))
 def get_tareas(id):
-        tareas = extraer_tareas(id)
-        return jsonify({"respuesta": tareas})
+        CH_tareas = extraer_tareas(id)
+        return jsonify({"respuesta": CH_tareas})
 
 #metodo post encargado de agregar una tarea nueva
 #param: tarea -> dict -> {Usuario, Nombre, Descripcion, Estado}
 #return: json -> {respuesta: "Tarea agregada."}
 @app.route("/tareas", methods=(['POST']))
 def post_tareas():
-    tarea = request.json
-    agregar_tarea(tarea)
+    CH_tarea = request.json
+    agregar_tarea(CH_tarea)
     return jsonify({"respuesta": "Tarea agregada."})
 
 #metodo put encargado de modificar una tarea
@@ -134,8 +134,8 @@ def post_tareas():
 #return: json -> {respuesta: "Tarea modificada." o "Tarea no encontrada."}
 @app.route("/tareas", methods=(['PUT']))
 def put_tareas():
-    tarea = request.json
-    return jsonify({"respuesta": modificar_tarea(tarea)})
+    CH_tarea = request.json
+    return jsonify({"respuesta": modificar_tarea(CH_tarea)})
 
 #metodo delete encargado de eliminar una tarea
 #param: id -> int -> id de la tarea a eliminar
@@ -149,9 +149,9 @@ def delete_tareas(id):
 #return: json -> {respuesta: {Rut, Nombre} o "Usuario y/o contraseña incorrectos"}
 @app.route("/usuarios/log/", methods=(['POST']))
 def post_usuarios_log():
-    usuario = request.json
-    if usuario_existe(usuario["Rut"]):
-        return jsonify({"respuesta": extraer_usuario(usuario["Rut"], usuario["Contraseña"])})
+    CH_usuario = request.json
+    if usuario_existe(CH_usuario["Rut"]):
+        return jsonify({"respuesta": extraer_usuario(CH_usuario["Rut"], CH_usuario["Contraseña"])})
     return jsonify({"respuesta": "Usuario y/o contraseña incorrectos."})
 
 #metodo post que recibe un json con un usuario y lo agrega a la lista de usuarios en caso de no existir
@@ -159,10 +159,10 @@ def post_usuarios_log():
 #return: json -> {respuesta: "Usuario agregado" o "Usuario ya existe"}
 @app.route("/usuarios/", methods=(['POST']))
 def post_usuarios():
-    usuario = request.json
-    if usuario_existe(usuario["Rut"]):
+    CH_usuario = request.json
+    if usuario_existe(CH_usuario["Rut"]):
         return jsonify({"respuesta": "Usuario ya existe"})
-    agregar_usuario(usuario)
+    agregar_usuario(CH_usuario)
     return jsonify({"respuesta": "Usuario agregado"})
 
 if __name__ == '__main__':

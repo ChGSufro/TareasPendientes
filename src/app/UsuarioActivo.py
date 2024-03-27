@@ -11,31 +11,31 @@ class UsuarioActivo():
     # tareas -> list -> lista de tareas del usuario con objetos de la clase Tarea
 
     def __init__(self, rut, nombre):
-        self.rut = rut
-        self.nombre = nombre
-        self.tareas = []
+        self.CH_G_rut = rut
+        self.CH_G_nombre = nombre
+        self.CH_G_tareas = []
         self.updateTareas()
-        print(self.tareas)
+        print(self.CH_G_tareas)
 
     # getters de la clase
     def getRut(self):
-        return self.rut
+        return self.CH_G_rut
     
     def getNombre(self):
-        return self.nombre
+        return self.CH_G_nombre
 
     def getTareas(self):
-        return self.tareas
+        return self.CH_G_tareas
     
     # Metodo que actualiza la lista de tareas del usuario con las tareas de la base de datos
     def updateTareas(self):
-        self.tareas = self.instanciar_tareas(cargar_tareas(self.rut)["respuesta"])
+        self.CH_G_tareas = self.instanciar_tareas(cargar_tareas(self.CH_G_rut)["respuesta"])
     
     # Metodo que verifica si una tarea existe en la lista de tareas del usuario
     # params: id_tarea -> int -> id de la tarea
     # return: bool -> True si la tarea existe, False si no existe
     def mi_tarea_existe(self, id_tarea):
-        for tarea in self.tareas:
+        for tarea in self.CH_G_tareas:
             if tarea.getId() == id_tarea:
                 return True
         return False, "La tarea no existe."
@@ -44,8 +44,8 @@ class UsuarioActivo():
     # params: tareas_dict -> list -> lista de diccionarios con las tareas -> [{Id, Nombre, Descripcion, Estado}]
     # return: list -> lista de objetos de la clase Tarea -> [Tarea1, Tarea2, ...]
     def instanciar_tareas(self, tareas_dict):
-        tareas = []
+        CH_G_tareas = []
         for tarea in tareas_dict:
-            tareas.append(Tarea(tarea["Id"], tarea["Nombre"], tarea["Descripcion"], tarea["Estado"]))
-        return tareas
+            CH_G_tareas.append(Tarea(tarea["Id"], tarea["Nombre"], tarea["Descripcion"], tarea["Estado"]))
+        return CH_G_tareas
 

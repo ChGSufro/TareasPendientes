@@ -11,36 +11,36 @@ class Tarea():
     # estado -> str -> estado de la tarea (Pendiente, En Proceso, Finalizada)
 
     def __init__(self, id : int, nombre : str, descripcion : str, estado : str):
-        self.id = id
-        self.nombre = nombre
-        self.descripcion = descripcion
-        self.estado = estado
+        self.CH_G_id = id
+        self.CH_G_nombre = nombre
+        self.CH_Gdescripcion = descripcion
+        self.CH_Gestado = estado
 
     # Metodos get y set excepto setId
     def getId(self):
-        return self.id
+        return self.CH_G_id
     
     def getNombre(self):
-        return self.nombre
+        return self.CH_G_nombre
     
     def getDescripcion(self):
-        return self.descripcion
+        return self.CH_Gdescripcion
     
     def getEstado(self):
-        return self.estado
+        return self.CH_Gestado
     
     def setNombre(self, nombre):
-        self.nombre = nombre
+        self.CH_G_nombre = nombre
     
     def setDescripcion(self, descripcion):
-        self.descripcion = descripcion
+        self.CH_Gdescripcion = descripcion
     
     def setEstado(self, estado):
-        self.estado = estado
+        self.CH_Gestado = estado
 
     # Metodo que convierte la tarea en un diccionario
     # return: dict -> {Id, Nombre, Descripcion, Estado}
     def to_dict(self):
-        return {"Id": self.id, "Nombre": self.nombre, "Descripcion": self.descripcion, "Estado": self.estado}
+        return {"Id": self.CH_G_id, "Nombre": self.CH_G_nombre, "Descripcion": self.CH_Gdescripcion, "Estado": self.CH_Gestado}
 
     

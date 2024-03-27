@@ -77,10 +77,14 @@ class VPrincipal(tk.Tk):
         def eliminar_tarea(self):
             id = self.opcion.get()
             check_con = check(id)
-            if check_con[0] and self.usuario.mi_tarea_existe(int(id)):
-                respuesta = eliminar(int(id))["respuesta"]
-                self.usuario.updateTareas() 
-                self.cargar_tabla()
+            if not check_con[0] and not self.usuario.mi_tarea_existe(int(id)):
+                self.respuesta.config(text=check_con[1])
+                return
+            respuesta = eliminar(int(id))["respuesta"]
+            if respuesta != "Tarea eliminada.":
                 self.respuesta.config(text=respuesta)
                 return
-            self.respuesta.config(text=check_con[1])
+            self.usuario.updateTareas()
+            self.cargar_tabla()
+                
+            

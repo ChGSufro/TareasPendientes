@@ -2,10 +2,7 @@ import tkinter as tk
 
 
 class VBienvenida(tk.Tk):
-    """
-    Clase encargada de la creación de la ventana de bienvenida, la cual es la primera ventana 
-    que se muestra al usuario y despliega las opciones de iniciar sesión o registrar un usuario nuevo. 
-    """
+#Clase encargada de la creación de la ventana de bienvenida, la cual es la primera ventana que se muestra al usuario y despliega las opciones de iniciar sesión o registrar un usuario nuevo. 
 
     def __init__(self):
 
@@ -23,21 +20,14 @@ class VBienvenida(tk.Tk):
 
         self.mainloop()
 
-
+    #Metodo encargado de cerrae la ventana actual y abrir la ventana de inicio de sesion una vez clickeado el botón .
     def iniciar(self):
-        """
-        Metodo encargado de cerrae la ventana actual y abrir la ventana de inicio de 
-        sesion una vez clickeado el botón .
-        """
         self.destroy()
         from src.guis.VIniciarSesion import VIniciarSesion
         VIniciarSesion()
-        
+    
+    #Metodo encargado de cerrar la ventana actual y abrir la ventana de registro una vez clickeado el botón.
     def registrar(self):
-        """
-        Metodo encargado de cerrar la ventana actual y abrir la ventana de registro una 
-        vez clickeado el botón.
-        """
         self.destroy()
         from src.guis.VRegistro import VRegistro
         VRegistro()

@@ -5,6 +5,7 @@ from src.api.Api import post_usuarios_event as agregar_usuario
 from rut_chile.rut_chile import format_capitalized_rut_without_dots as format_rut
 
 class VRegistro(tk.Tk):
+    #Clase encargada de la creación de la ventana de registro, la cual se encarga de recibir los datos necesarios para la creación de un nuevo usuario.
     
     def __init__(self):
     
@@ -47,21 +48,27 @@ class VRegistro(tk.Tk):
     
         self.mainloop()
 
+    #Metodo encargado de verificar si los campos ingresados son validos y en caso de serlo, realiza la solicitud de registro.   
     def registrar(self):
         rut, nombre, contraseña, confcontraseña = self.entry_usuario.get(), self.entry_nombre.get(), self.entry_contrasena.get(), self.entry_confirmar_contrasena.get()
         check = check_campos_registro(rut, contraseña, confcontraseña)
         if check[0]:
             respuesta = agregar_usuario({"Rut": format_rut(rut), "Nombre": nombre, "Contraseña": contraseña})["respuesta"]
-            self.label_resultado.config(text=respuesta)
-            self.limpiar()
-            return
+            try:
+                self.label_resultado.config(text=respuesta)
+                self.limpiar()
+                return
+            except TypeError:
+                self.label_resultado.config(text=respuesta)
+                return
         self.label_resultado.config(text=check[1])
             
-
+    #Metodo encargado de cerrar la ventana actual y regresar al usuario a la ventana anterior en caso de que desee cancelar el registro.
     def regresar(self):
         self.destroy()
         VBienvenida()
 
+    #Metodo encargado de limpiar los campos de la ventana.
     def limpiar(self):
         self.entry_usuario.delete(0, tk.END)
         self.entry_nombre.delete(0, tk.END)

@@ -4,8 +4,10 @@ from src.guis.VBienvenida import VBienvenida
 from src.guis.Gestor_de_campos import check_campos_seleccion_tarea as check
 from src.app.UsuarioActivo import UsuarioActivo
 from src.api.Api import delete_tareas_event as eliminar
-from src.api.Api import put_tareas_event as editar
 
+# Clase que representa la ventana principal de la aplicacion
+# Esta ventana muestra las tareas del usuario activo en una tabla
+# Permite al usuario cerrar sesion, agregar tareas, editar tareas y eliminar tareas
 class VPrincipal(tk.Tk):
     
         def __init__(self, usuario: UsuarioActivo):
@@ -58,22 +60,27 @@ class VPrincipal(tk.Tk):
             
             self.mainloop()
 
+    # Metodo que actualiza la tabla de tareas
         def cargar_tabla(self):
             for dato in self.tabla.get_children():
                 self.tabla.delete(dato)
             for tarea in self.usuario.getTareas():
                 self.tabla.insert("", "end", text=tarea.getId(), values=(tarea.getNombre(), tarea.getDescripcion(), tarea.getEstado()))
     
+    # Metodo que cierra la sesion del usuario activo y nos regresa a la ventana de bienvenida
         def cerrar_sesion(self):
             self.destroy()
             VBienvenida()
 
+    # Metodo que nos lleva a la ventana de agregar tarea
         def agregar_tarea(self):
             pass
 
+    # Metodo que nos lleva a la ventana de editar tarea
         def editar_tarea(self):
             pass
 
+    # Metodo que elimina una tarea o muestra un mensaje de error si no se puede eliminar
         def eliminar_tarea(self):
             id = self.opcion.get()
             check_con = check(id)

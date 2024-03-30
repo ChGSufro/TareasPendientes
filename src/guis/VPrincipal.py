@@ -1,9 +1,14 @@
 import tkinter as tk
+import json
 from tkinter import ttk
 from src.guis.VBienvenida import VBienvenida
 from src.guis.Gestor_de_campos import check_campos_seleccion_tarea as check
+from src.guis.Gestor_de_campos import check_campos_nueva_tarea as check_nueva_tarea
+from src.guis.Gestor_de_campos import check_campos_editar_tarea as check_editar_tarea
 from src.app.UsuarioActivo import UsuarioActivo
 from src.api.Api import delete_tareas_event as eliminar
+from src.api.Api import post_tareas_event as agregar
+from src.api.Api import put_tareas_event as editar
 
 # Clase que representa la ventana principal de la aplicacion
 # Esta ventana muestra las tareas del usuario activo en una tabla
@@ -19,8 +24,7 @@ class VPrincipal(tk.Tk):
 
             self.menu = tk.Menu(self)
             self.menu.add_command(label="Cerrar Sesion", command=self.cerrar_sesion)
-            self.menu.add_command(label="Agregar Tarea", command=self.destroy)
-
+            
             self.config(menu=self.menu)
 
             self.label_bienvenida = tk.Label(self, text=f"Bienvenido: {self.usuario.getNombre()}")
@@ -67,10 +71,10 @@ class VPrincipal(tk.Tk):
             self.Estado = tk.Entry(self)
             self.Estado.pack(side=tk.LEFT, padx=10, pady=10)    
 
-            self.button_editar_tarea = tk.Button(self, text="Agregar Tarea", command=self.editar_tarea)
-            self.button_editar_tarea.pack(padx=30, pady=5)
+            self.button_agregar_tarea = tk.Button(self, text="Agregar Tarea", command=self.agregar_tarea)
+            self.button_agregar_tarea.pack(padx=30, pady=5)
 
-            self.button_editar_tarea = tk.Button(self, text="Editar Tarea", command=self.destroy)
+            self.button_editar_tarea = tk.Button(self, text="Editar Tarea", command=self.editar_tarea)
             self.button_editar_tarea.pack(padx=30, pady=5)
 
             self.button_eliminar_tarea = tk.Button(self, text="Eliminar Tarea", command=self.eliminar_tarea)
@@ -92,16 +96,22 @@ class VPrincipal(tk.Tk):
 
     # Metodo que nos lleva a la ventana de agregar tarea
         def agregar_tarea(self):
-            pass
+            Nombre = self.Nombre.get()
+            Descripcion = self.Descripcion.get()
+            CH_G_check = check_nueva_tarea(Nombre)
+            if CH_G_check[0]:
+                CH_G_tarea= {"Usuario": self.usuario.getRut(), "Nombre": Nombre, "Descripcion": Descripcion, "Estado": "Pendiente"}
+                CH_G_respuesta = agregar(CH_G_tarea)["respuesta"]
+                self.respuesta.config(text=CH_G_respuesta)
+                self.usuario.updateTareas()
+                self.cargar_tabla()
+                return
+            self.respuesta.config(text=CH_G_check[1])
 
     # Metodo que nos lleva a la ventana de editar tarea
         def editar_tarea(self):
-            id = self.opcion.get()
-            check_con = check(id)
-            if not check_con[0] and not self.usuario.mi_tarea_existe(int(id)):
-                self.respuesta.config(text=check_con[1])
-                return
             pass
+
 
     # Metodo que elimina una tarea o muestra un mensaje de error si no se puede eliminar
         def eliminar_tarea(self):
@@ -117,4 +127,6 @@ class VPrincipal(tk.Tk):
             self.usuario.updateTareas()
             self.cargar_tabla()
                 
+
+    
             

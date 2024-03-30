@@ -69,6 +69,17 @@ def check_campos_seleccion_tarea(id_tarea):
         return False, "Por favor seleccione una tarea valida"
     return True, ""
 
+def check_campos_editar_tarea(tarea, nombre, descripcion, estado):
+    if not check_noNull(nombre) and not check_noNull(descripcion) and not check_noNull(estado):
+        return False, "Por favor ingrese un nombre, descripcion o estado"
+    if check_noNull(nombre):
+        tarea.setNombre(nombre)
+    if check_noNull(descripcion):
+        tarea.setDescripcion(descripcion) 
+    if check_noNull(estado):
+        tarea.setEstado(estado)
+    return True, ""
+
     
 
     

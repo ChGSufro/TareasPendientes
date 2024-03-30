@@ -45,9 +45,9 @@ class VIniciarSesion(tk.Tk):
         rut , contraseña = self.entry_usuario.get(), self.entry_contrasena.get()
         check = check_campos_inicio(rut, contraseña)
         if check[0]:
-            respuesta = log({"Rut": format_rut(rut), "Contraseña": contraseña})["respuesta"]
+            respuesta = log({"_id": format_rut(rut), "Contraseña": contraseña})["respuesta"]
             try:
-                usuario = UsuarioActivo(respuesta["Rut"], respuesta["Nombre"])
+                usuario = UsuarioActivo(respuesta["_id"], respuesta["Nombre"])
                 self.destroy()
                 VPrincipal(usuario)
                 return

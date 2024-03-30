@@ -27,6 +27,12 @@ class UsuarioActivo():
     def getTareas(self):
         return self.CH_G_tareas
     
+    def getTarea(self, id_tarea):
+        for tarea in self.CH_G_tareas:
+            if tarea.getId() == id_tarea:
+                return tarea
+        return None, "La tarea no existe."
+    
     # Metodo que actualiza la lista de tareas del usuario con las tareas de la base de datos
     def updateTareas(self):
         self.CH_G_tareas = self.instanciar_tareas(cargar_tareas(self.CH_G_rut)["respuesta"])
@@ -46,6 +52,6 @@ class UsuarioActivo():
     def instanciar_tareas(self, tareas_dict):
         CH_G_tareas = []
         for tarea in tareas_dict:
-            CH_G_tareas.append(Tarea(tarea["Id"], tarea["Nombre"], tarea["Descripcion"], tarea["Estado"]))
+            CH_G_tareas.append(Tarea(tarea["_id"], tarea["Nombre"], tarea["Descripcion"], tarea["Estado"]))
         return CH_G_tareas
 

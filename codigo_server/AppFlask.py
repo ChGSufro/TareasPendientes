@@ -28,7 +28,7 @@ def generar_id():
 
 #metodo que recibe un propietario y devuelve una lista con las tareas asociadas a ese propietario.
 #param: propietario -> str -> rut del propietario de las tareas
-#return: list -> dict {Id, Usuario, Nombre, Descripcion, Estado}
+#return: list -> dict {_id, Usuario, Nombre, Descripcion, Estado}
 def extraer_tareas(propietario):
     CH_tareas = []
     for tarea in CH_TAREAS:
@@ -150,17 +150,17 @@ def delete_tareas(id):
 @app.route("/usuarios/log/", methods=(['POST']))
 def post_usuarios_log():
     CH_usuario = request.json
-    if usuario_existe(CH_usuario["Rut"]):
-        return jsonify({"respuesta": extraer_usuario(CH_usuario["Rut"], CH_usuario["Contraseña"])})
+    if usuario_existe(CH_usuario["_id"]):
+        return jsonify({"respuesta": extraer_usuario(CH_usuario["_id"], CH_usuario["Contraseña"])})
     return jsonify({"respuesta": "Usuario y/o contraseña incorrectos."})
 
 #metodo post que recibe un json con un usuario y lo agrega a la lista de usuarios en caso de no existir
-#param: usuario -> dict -> {Rut, Nombre, Contraseña}
+#param: usuario -> dict -> {_id, Nombre, Contraseña} -> "_id es el rut"
 #return: json -> {respuesta: "Usuario agregado" o "Usuario ya existe"}
 @app.route("/usuarios/", methods=(['POST']))
 def post_usuarios():
     CH_usuario = request.json
-    if usuario_existe(CH_usuario["Rut"]):
+    if usuario_existe(CH_usuario["_id"]):
         return jsonify({"respuesta": "Usuario ya existe"})
     agregar_usuario(CH_usuario)
     return jsonify({"respuesta": "Usuario agregado"})

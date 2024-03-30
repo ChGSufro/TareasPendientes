@@ -41,6 +41,6 @@ class Tarea():
     # Metodo que convierte la tarea en un diccionario
     # return: dict -> {Id, Nombre, Descripcion, Estado}
     def to_dict(self):
-        return {"Id": self.CH_G_id, "Nombre": self.CH_G_nombre, "Descripcion": self.CH_Gdescripcion, "Estado": self.CH_Gestado}
+        return {"_id": self.CH_G_id, "Nombre": self.CH_G_nombre, "Descripcion": self.CH_Gdescripcion, "Estado": self.CH_Gestado}
 
     

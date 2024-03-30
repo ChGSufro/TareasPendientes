@@ -53,7 +53,7 @@ class VRegistro(tk.Tk):
         rut, nombre, contraseña, confcontraseña = self.entry_usuario.get(), self.entry_nombre.get(), self.entry_contrasena.get(), self.entry_confirmar_contrasena.get()
         check = check_campos_registro(rut, contraseña, confcontraseña)
         if check[0]:
-            respuesta = agregar_usuario({"Rut": format_rut(rut), "Nombre": nombre, "Contraseña": contraseña})["respuesta"]
+            respuesta = agregar_usuario({"_id": format_rut(rut), "Nombre": nombre, "Contraseña": contraseña})["respuesta"]
             try:
                 self.label_resultado.config(text=respuesta)
                 self.limpiar()

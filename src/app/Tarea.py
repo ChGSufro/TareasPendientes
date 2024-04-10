@@ -42,5 +42,36 @@ class Tarea():
     # return: dict -> {Id, Nombre, Descripcion, Estado}
     def to_dict(self):
         return {"_id": self.CH_G_id, "Nombre": self.CH_G_nombre, "Descripcion": self.CH_Gdescripcion, "Estado": self.CH_Gestado}
+    
+    def nombre_valido(self, nombre):
+        if nombre == self.CH_G_nombre:
+            raise ValueError("El nombre no puede ser igual al actual")
+        nombre.replace(" ", "")
+        if nombre == "":
+            return False
+        return True
+    
+    def descripcion_valida(self, descripcion):
+        if descripcion == self.CH_Gdescripcion:
+            raise ValueError("La descripcion no puede ser igual a la actual")
+        descripcion.replace(" ", "")
+        if descripcion == "":
+            return False
+        return True
+    
+    def estado_valido(self, estado):
+        if estado == self.CH_Gestado:
+            False
+        if estado != "Pendiente" and estado != "En Proceso" and estado != "Finalizada":
+            return False
+        return True
+    
+    def modificar_tarea(self, nombre, descripcion, estado):
+        if self.nombre_valido(nombre):
+            self.setNombre(nombre)
+        if self.descripcion_valida(descripcion):
+            self.setDescripcion(descripcion)
+        if self.estado_valido(estado):
+            self.setEstado(estado)
 
     

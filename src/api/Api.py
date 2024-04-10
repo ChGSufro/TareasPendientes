@@ -10,7 +10,7 @@ url = "http://44.209.21.223:8081"
 # return: dict -> {Id, Usuario, Nombre, Descripcion, Estado}
 def get_tareas_event(rut):
     try:
-        CH_Gresponse = requests.get(f"{url}/tareas/get/{rut}")
+        CH_Gresponse = requests.get(f"{url}/tareas/get/{rut}", timeout=3)
         return CH_Gresponse.json()
     except requests.exceptions.RequestException:
         return {"respuesta": "Error al comunicar con el servidor."}
@@ -20,7 +20,7 @@ def get_tareas_event(rut):
 # retorna un json con un string de confirmacion
 def post_tareas_event(tarea):
     try:
-        CH_Gresponse = requests.post(f"{url}/tareas/add", json=tarea)
+        CH_Gresponse = requests.post(f"{url}/tareas/add", json=tarea, timeout=3)
         return CH_Gresponse.json()
     except requests.exceptions.RequestException:
         return {"respuesta": "Error al comnicar con el servidor."}
@@ -30,7 +30,7 @@ def post_tareas_event(tarea):
 # return: dict -> {respuesta: "Tarea modificada." o "Tarea no encontrada."}
 def put_tareas_event(tarea):
     try:
-        CH_Gresponse = requests.put(f"{url}/tareas/update", json=tarea)
+        CH_Gresponse = requests.put(f"{url}/tareas/update", json=tarea, timeout=3)
         return CH_Gresponse.json()
     except requests.exceptions.RequestException:
         return {"respuesta": "Error al comunicar con el servidor."}
@@ -40,7 +40,7 @@ def put_tareas_event(tarea):
 # return: dict -> {respuesta: "Tarea eliminada." o "Tarea no encontrada."}
 def delete_tareas_event(id):
     try:
-        CH_Gresponse = requests.delete(f"{url}/tareas/delete/{id}")
+        CH_Gresponse = requests.delete(f"{url}/tareas/delete/{id}", timeout=3)
         return CH_Gresponse.json()
     except requests.exceptions.RequestException: 
         return {"respuesta": "Error al comunicar con el servidor."}
@@ -50,7 +50,7 @@ def delete_tareas_event(id):
 # return: dict -> {respuesta: {_id, Nombre} o "Usuario y/o contraseña incorrectos"}
 def log_usuario_event(CH_Gusuario: dict):
     try:
-        CG_Gresponse = requests.post(f"{url}/usuarios/log", json=CH_Gusuario)
+        CG_Gresponse = requests.post(f"{url}/usuarios/log", json=CH_Gusuario, timeout=3)
         return CG_Gresponse.json()
     except requests.exceptions.RequestException:
         return {"respuesta": "Error al comunicar con el servidor."}
@@ -60,7 +60,7 @@ def log_usuario_event(CH_Gusuario: dict):
 # return: dict -> {respuesta: "Usuario agregado" o "Usuario ya existe"}
 def post_usuarios_event(CH_Gusuario: dict):
     try:
-        CH_Gresponse = requests.post(f"{url}/usuarios/add", json=CH_Gusuario)
+        CH_Gresponse = requests.post(f"{url}/usuarios/add", json=CH_Gusuario, timeout=3)
         return CH_Gresponse.json()
     except requests.exceptions.RequestException:
         return {"respuesta": "Error al comunicar con el servidor."}

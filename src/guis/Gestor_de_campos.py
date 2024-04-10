@@ -54,31 +54,32 @@ def check_campos_registro(rut, contraseña, conf_contraseña):
 # metodo que verifica si elcampos nombre es minimamente valido para realizar una solicitud de creacion de tarea, retorna una tupla con un booleano y un mensaje.
 #param nombre: str -> nombre a verificar
 #return: tuple -> (bool, str) -> (True, "") si el campo es valido, (False, mensaje) si no lo es
-def check_campos_nueva_tarea(nombre):
+def check_campos_nueva_tarea(nombre, descripcion):
     if not check_noNull(nombre):
         return False, "Por favor ingrese un nombre"
+    if not check_noNull(descripcion):
+        return False, "Por favor ingrese una descripcion"
     return True, ""
 
 # metodo que verifica si el campo id_tarea es minimamente valido para realizar una solicitud de eliminacion de tarea, retorna una tupla con un booleano y un mensaje.
 #param id_tarea: str -> id de la tarea a verificar
 #return: tuple -> (bool, str) -> (True, "") si el campo es valido, (False, mensaje) si no lo es
-def check_campos_seleccion_tarea(id_tarea):
+def check_campos_id(id_tarea):
     if not check_noNull(id_tarea):
         return False, "Por favor seleccione una tarea"
     if not id_tarea.isdigit():
         return False, "Por favor seleccione una tarea valida"
     return True, ""
 
-def check_campos_editar_tarea(tarea, nombre, descripcion, estado):
-    if not check_noNull(nombre) and not check_noNull(descripcion) and not check_noNull(estado):
-        return False, "Por favor ingrese un nombre, descripcion o estado"
-    if check_noNull(nombre):
-        tarea.setNombre(nombre)
-    if check_noNull(descripcion):
-        tarea.setDescripcion(descripcion) 
-    if check_noNull(estado):
-        tarea.setEstado(estado)
-    return True, ""
+# metodo que verifica si los campos nombre, descripcion y estado son minimamente validos para realizar una solicitud de edicion de tarea, retorna una tupla con un booleano y un mensaje.
+#param nombre: str -> nombre a verificar
+#param descripcion: str -> descripcion a verificar
+#param estado: str -> estado a verificar
+#return: tuple -> (bool, str) -> (True, "") si los campos son validos, (False, mensaje) si no lo son
+def check_campos_editar_tarea(id):
+    if not check_campos_id(id)[0]:
+        raise ValueError("Por favor seleccione una tarea valida")
+    return True
 
     
 

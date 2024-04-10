@@ -36,12 +36,14 @@ def modificar_tarea(tarea):
     tarea_id = tarea["_id"]
     tarea.pop("_id")
     Ch_G_Tareas.update_one({"_id": tarea_id}, {"$set": tarea})
+    return "Tarea modificada."
 
 #metodo que recibe un id y elimina la tarea asociada a ese id en la coleccón de tareas.
 #param: id -> int -> id de la tarea a eliminar
 #return: str -> "Tarea eliminada." o "Tarea no encontrada."
 def eliminar_tarea(id):
     Ch_G_Tareas.delete_one({"_id": id})
+    return "Tarea eliminada."
 
 #metodo que recibe un id y verifica si existe en la colección devolviendo un booleano.
 #param: id -> str -> rut del usuario
@@ -124,7 +126,7 @@ def put_tareas():
 def delete_tareas(id):
     return jsonify({"respuesta": eliminar_tarea(int(id))})
 
-# metodo post que recibe un id de usuario y una contraseña y devuelve un json con el usuario si existe.
+#metodo post que recibe un id de usuario y una contraseña y devuelve un json con el usuario si existe.
 #ruta para llamarlo: SU_IP:8081/usuarios/log
 #request: usuario -> dict -> {Rut, Contraseña}
 #return: json -> {respuesta: {Rut, Nombre} o "Usuario y/o contraseña incorrectos"}

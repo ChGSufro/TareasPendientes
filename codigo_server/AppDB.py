@@ -3,10 +3,10 @@ from pymongo import MongoClient
 
 client = MongoClient("mongodb://localhost:27017/")
 
-db = client["Gestor_De_Tareas"]
+Ch_G_db = client["Gestor_De_Tareas"]
 
-Ch_G_Tareas = db["Tareas"]
-Ch_G_Usuarios = db["Usuarios"]
+Ch_G_Tareas = Ch_G_db["Tareas"]
+Ch_G_Usuarios = Ch_G_db["Usuarios"]
 
 #metodo que devuelve el id de la ultima tarea + 1
 #return: int
@@ -61,7 +61,7 @@ def extraer_usuario(rut, contraseña):
     usuario = Ch_G_Usuarios.find_one({"_id": rut})
     if usuario["Contraseña"] == contraseña:
         return usuario
-    return None
+    return "Usuario y/o contraseña incorrectos."
 
 #metodo que recibe un usuario en formato diccionario y lo agrega a la lista de usuarios
 #param: usuario -> dict -> {id_, Nombre, Contraseña}
@@ -91,6 +91,9 @@ def create_event():
     response = {'token': '123456789'}
     return jsonify(response)
 
+@app.route("/server/status", methods=(['GET']))
+def mostrar_server():
+    return jsonify({"Estado": Ch_G_db.get_collection( ), "Tareas": list(Ch_G_Tareas.find()), "Usuarios": list(Ch_G_Usuarios.find())})
 
 #metodo get encargado de devolver un json con la lista de tareas
 #ruta para llamarlo: SU_IP:8081/tareas/get/<propietario> -> rut propietario de las tareas
